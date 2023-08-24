@@ -1,150 +1,168 @@
-
 #include <iostream>
 #include <string>
 #include <vector>
-#include <ctime>
-#include <cstdlib>
-#include <random>
-#include <algorithm>
 #include <limits>
 
 using namespace std;
 
-// Definição da estrutura que representa uma pergunta
+// Representação da pergunta
 struct Question {
-    string question;         // A pergunta em si
-    vector<string> options;  // Opções de resposta
-    int correctOption;       // Índice da opção correta
+    string question;
+    vector<string> options;
+    int correctOption;
 };
 
-// Definição da estrutura que representa uma equipe
+// Define a equipe
 struct Team {
-    string name;  // Nome da equipe
-    int score;    // Pontuação da equipe
+    string name;
+    int score;
 
-    Team(const string& _name) : name(_name), score(0) {}  // Construtor
+    Team(const string& _name) : name(_name), score(0) {}
 };
 
-// Função para exibir uma pergunta na saída padrão
+// Exibir uma pergunta na saída padrão
 void displayQuestion(const Question& q) {
     cout << q.question << endl;
     for (size_t i = 0; i < q.options.size(); i++) {
-        cout << i + 1 << ". " << q.options[i] << endl;
+        cout << char('a' + i) << ") " << q.options[i] << endl;
     }
 }
 
-// Função para verificar se a resposta do jogador está correta
+// Verifica se a resposta do jogador está correta
 bool checkAnswer(int playerAnswer, const Question& q) {
     return playerAnswer == q.correctOption;
 }
 
 int main() {
-    // Inicialização da semente para geração de números aleatórios
-    srand(static_cast<unsigned int>(time(nullptr)));
-
-    // Criação das equipes
+    // Criando as equipes
     vector<Team> teams;
     teams.emplace_back("Grupo 1");
     teams.emplace_back("Grupo 2");
-    teams.emplace_back("Grupo 3");
+    teams.emplace_back("Grupo 4");
 
     // Criação das perguntas
-    vector<Question> questions = {
-        {"Qual é o tipo de dado usado para armazenar números inteiros?",
-         {"a) long", "b) float", "c) char", "d) int"},
-         4},
-        {"Qual é a função usada para ler dados do usuário?",
-         {"a) input()", "b) scanf()", "c) cout", "d) print()"},
-         2},
-         {"Qual operador é usado para realizar uma comparação?",
-         {"a) =", "b) +", "c) ==", "d) *"},
-         3},
-         {"Qual desses símbolos é usado para destacar um comentário de múltiplas linhas?";
-         {"a) long", "b) float", "c) char", "d) int" },
-         4},
-    }
+    vector<vector<Question>> groupQuestions = {
+        // Grupo 1
+        {
+            {"Qual e o simbolo usado para iniciar um comentario de uma linha em C++?",
+             {"//", "/*", "<!--", "--"},
+             0},
+            {"Qual e a saida padrao em C++?",
+             {"input()", "console.log()", "cout", "print()"},
+             2},
+            {"Qual e a finalidade de usar a palavra-chave `cin` em C++?",
+             {"Imprimir mensagens na tela", "Ler entradas do usuario a partir do teclado", "Realizar calculos complexos", "Definir uma funcao"},
+             0},
+            {"Qual operador e usado para realizar uma comparacao de desigualdade?",
+             {"!=", "==", "<=", ">="},
+             0},
+        },
+        // Grupo 2
+        {
+            {"O que e um loop em C++ e qual e a sua finalidade?",
+             {"Um tipo de dado para armazenar multiplos valores", "Uma declaracao que define uma classe", "Uma estrutura que permite a execucao repetida de um bloco de codigo", "Uma funcao para imprimir valores na tela"},
+             2},
+            {"Qual operador e usado para realizar uma comparacao?",
+             {"=", "+", "==", "*"},
+             2},
+            {"Explique a diferenca entre um array e um vetor em C++",
+             {"Nao ha diferenca; são termos intercambiaveis", "Arrays sao usados para armazenar valores do mesmo tipo, enquanto vetores armazenam tipos diferentes", "Vetores sao usados para armazenar valores do mesmo tipo, enquanto arrays podem armazenar tipos diferentes", "Arrays sao mais eficientes que vetores na alocacao de memoria"},
+             0},
+            {"O que e uma funcao em C++ e por que ela e util?",
+             {"Uma variavel global que pode ser acessada de qualquer lugar", "Um trecho de codigo que nao pode ser reutilizado", "Uma instrucao que define um loop", "Um bloco de codigo que realiza uma tarefa especifica e pode ser reutilizado"},
+             3},
+        },
+        // Grupo 4
+        {
+            {"Qual e a principal vantagem de utilizar vetores na programacao?",
+             {"Armazenamento de Dados", "Manipulacao de Dados", "Flexibilidade", "Controle de Fluxo"},
+             0},
+            {"O que um bloco de codigo delimitado por chaves ({}) em C++ representa?",
+             {"Uma declaracao de variavel", "Um comentario", "Um loop infinito", "Um escopo de codigo"},
+             3},
+            {"Qual e a funcao da biblioteca <cstdlib> em C++?",
+             {"Manipular strings", "Controlar estruturas de repeticao", "Realizar operacoes matematicas", "Fornecer funcoes para gerar números aleatorios"},
+             3},
+            {"Qual e o operador usado para acessar o valor armazenado em um vetor em C++?",
+             {":", "*", "->", "[]"},
+             3},
+        }
+    };
 
     int choice = 0;
-    while (choice != 5) {
-        // Exibição do menu principal
+    while (true) {
         cout << "========================================" << endl;
-        cout << "1. 'Grupo 1'" << endl;
-        cout << "2. 'Grupo 2'" << endl;
-        cout << "3. 'Grupo 3'" << endl;
-        cout << "4. 'Ver Pontuação'" << endl;
-        cout << "5. 'Sair'" << endl;
-        cout << "Escolha uma opção: ";
-        cout << "========================================" << endl;
+        cout << "1. Grupo 1" << endl;
+        cout << "2. Grupo 2" << endl;
+        cout << "3. Grupo 4" << endl;
+        cout << "4. Ver Pontuacao" << endl;
+        cout << "5. Sair" << endl;
+        cout << "Escolha uma opcao: ";
 
-        // Leitura e validação da escolha do usuário
-        while (!(cin >> choice) || choice < 1 || choice > 5) {
-            cout << "Opção inválida. Escolha novamente: ";
+        while (!(cin >> choice)) {
+            cout << "Digite um numero valido: ";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
 
+        cout << "========================================" << endl;
+
         if (choice >= 1 && choice <= 3) {
             int groupChoice = choice - 1;
+            const vector<Question>& groupQuestionsList = groupQuestions[groupChoice];
 
-            int totalRounds = 1;
-            int totalQuestionsPerRound = 4;
-
-            // Exibição do cabeçalho da rodada
-            cout << "-----------------------------------------" << endl;
+            cout << "----------------------------------------" << endl;
             cout << "Rodada - " << teams[groupChoice].name << endl;
 
-            // Embaralhamento das perguntas para cada rodada
-            random_device rd;
-            mt19937 g(rd());
-            shuffle(questions.begin(), questions.end(), g);
-
-            // Loop para exibir e processar perguntas da rodada
-            for (int questionIndex = 0; questionIndex < totalQuestionsPerRound; ++questionIndex) {
-                const Question& currentQuestion = questions[questionIndex];
+            for (int questionIndex = 0; questionIndex < groupQuestionsList.size(); ++questionIndex) {
+                const Question& currentQuestion = groupQuestionsList[questionIndex];
 
                 cout << "Pergunta " << questionIndex + 1 << ":" << endl;
                 displayQuestion(currentQuestion);
 
                 int playerAnswer;
+                string userResponse;
 
-                // Loop para receber uma resposta válida do jogador
                 while (true) {
-                    cout << "Digite a opção correta (1, 2, 3, ...): ";
-                    while (!(cin >> playerAnswer)) {
-                        cout << "Entrada inválida. Digite novamente: ";
-                        cin.clear();
-                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    }
+                    cout << "Digite a opcao correta: ";
+                    cin >> userResponse;
 
-                    // Verificação e processamento da resposta
-                    if (playerAnswer >= 1 && playerAnswer <= currentQuestion.options.size()) {
-                        if (checkAnswer(playerAnswer, currentQuestion)) {
-                            teams[groupChoice].score++;
-                            cout << "Resposta correta! Pontuação atual de " << teams[groupChoice].name << ": " << teams[groupChoice].score << endl;
-                        } else {
-                            cout << "Resposta incorreta!" << endl;
-                        }
-                        break; // Avança para a próxima pergunta
+                    char responseChar = tolower(userResponse[0]);
+
+                    if (responseChar >= 'a' && responseChar <= 'd') {
+                        playerAnswer = responseChar - 'a';
+                        break;
                     } else {
-                        cout << "Opção inválida. Digite novamente: ";
+                        cout << "Digite uma opcao valida." << endl;
                     }
+                }
+
+                if (checkAnswer(playerAnswer, currentQuestion)) {
+                    teams[groupChoice].score++;
+                    cout << "Resposta correta! Pontuacao atual de " << teams[groupChoice].name << ": " << teams[groupChoice].score << endl;
+                } else {
+                    cout << "Resposta incorreta!" << endl;
                 }
             }
 
-            cout << "-----------------------------------------" << endl;
+            cout << "----------------------------------------" << endl;
         } else if (choice == 4) {
-            // Exibição da pontuação atual das equipes
-            cout << "Pontuação atual:" << endl;
+            cout << "Pontuacao atual:" << endl;
             for (const Team& team : teams) {
                 cout << team.name << ": " << team.score << endl;
             }
         } else if (choice == 5) {
-            // Mensagem de saída do programa
             cout << "Saindo do programa." << endl;
+            break;
         } else {
-            // Mensagem de opção inválida
-            cout << "Opção inválida. Escolha novamente." << endl;
+            cout << "Opcao invalida. Escolha novamente." << endl;
         }
+    }
+
+    cout << "-----------------------------------------" << endl;
+    cout << "Pontuacao total:" << endl;
+    for (const Team& team : teams) {
+        cout << team.name << ": " << team.score << endl;
     }
 
     return 0;
