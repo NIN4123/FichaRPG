@@ -1,3 +1,9 @@
+/*nomes: Maria Eduarda e Leticia - Organização e estrutura do código; Interface interativa;
+Otávio e Natalia - Criação dos questionários; Sorteio das perguntas;
+Danilo Alves e Sebastião - Apresentação das perguntas; Avaliação da estética;
+Elen - Legibilidade do código; Uso do conhecimento adquirido;
+Lucas Moraes e Matheus Melgacio - Finalização e pontuação; Considerações finais.*/
+
 #include <iostream>
 #include <string>
 #include <vector>
